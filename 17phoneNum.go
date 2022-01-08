@@ -2,26 +2,37 @@ package goleet
 
 //https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/
 
+var digMap map[string]string = map[string]string{
+	"2": "abc",
+	"3": "def",
+	"4": "ghi",
+	"5": "jkl",
+	"6": "mno",
+	"7": "pqrs",
+	"8": "tuv",
+	"9": "wxyz",
+}
+
+var combinations []string
+
 func letterCombinations(digits string) []string {
-	res := make([]string, 0)
-	digLen := len(digits)
-	if digLen == 0 {
-		return res
+	if len(digits) == 0 {
+		return []string{}
 	}
-	digMap := make(map[string][]string)
-	digMap["2"] = []string{"a", "b", "c"}
-	digMap["3"] = []string{"d", "e", "f"}
-	digMap["4"] = []string{"g", "h", "i"}
-	digMap["5"] = []string{"j", "k", "l"}
-	digMap["6"] = []string{"m", "n", "o"}
-	digMap["7"] = []string{"p", "q", "r", "s"}
-	digMap["8"] = []string{"t", "u", "v"}
-	digMap["9"] = []string{"w", "x", "y", "z"}
-	for i := 0; i < len(digMap[string(digits[0])]); i++ {
-		if digLen == 1 {
-			res = append(res, digMap[string(digits[0])][i])
-			continue
+	combinations = []string{}
+	backtrack(digits, 0, "")
+	return combinations
+}
+
+func backtrack(digits string, index int, combine string) {
+	if index == len(digits) {
+		combinations = append(combinations, combine)
+	} else {
+		digit := digits[index]
+		letters := digMap[string(digit)]
+		letterLen := len(letters)
+		for i := 0; i < letterLen; i++ {
+			backtrack(digits, index+1, combine+string(letters[i]))
 		}
 	}
-	return res
 }
