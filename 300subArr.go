@@ -2,7 +2,7 @@ package goleet
 
 // https://leetcode-cn.com/problems/longest-increasing-subsequence/
 
-func lengthOfLIS(nums []int) int {
+func lengthOfLISar(nums []int) int {
 	lenn := len(nums)
 	var l []int = make([]int, 0)
 	l = append(l, 0, nums[0])

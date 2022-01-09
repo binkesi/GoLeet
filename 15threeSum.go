@@ -5,42 +5,30 @@ import (
 )
 
 func threeSum(nums []int) [][]int {
-	res := make([][]int, 0)
+	n := len(nums)
 	sort.Ints(nums)
-	numLen := len(nums)
-	if numLen < 3 {
-		return res
-	}
-	for i := 0; i < numLen; i++ {
-		if nums[i] > 0 {
-			break
-		}
-		if i > 0 && nums[i] == nums[i-1] {
+	ans := make([][]int, 0)
+
+	for first := 0; first < n; first++ {
+		if first > 0 && nums[first] == nums[first-1] {
 			continue
 		}
-		twoSum := 0 - nums[i]
-		for j, k := i+1, numLen-1; j < numLen; j++ {
-			if j >= k {
+		third := n - 1
+		target := -1 * nums[first]
+		for second := first + 1; second < n; second++ {
+			if second > first+1 && nums[second] == nums[second-1] {
+				continue
+			}
+			for second < third && nums[second]+nums[third] > target {
+				third--
+			}
+			if second == third {
 				break
 			}
-			if j > i+1 && nums[j] == nums[j-1] {
-				continue
-			}
-			for j < k && nums[j]+nums[k] > twoSum {
-				k--
-			}
-			if j >= k {
-				continue
-			} else {
-				if nums[j]+nums[k] == twoSum {
-					tmp := []int{}
-					tmp = append(tmp, nums[i], nums[j], nums[k])
-					res = append(res, tmp)
-					k--
-				}
-				continue
+			if nums[second]+nums[third] == target {
+				ans = append(ans, []int{nums[first], nums[second], nums[third]})
 			}
 		}
 	}
-	return res
+	return ans
 }
