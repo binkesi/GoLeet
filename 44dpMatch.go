@@ -1,6 +1,6 @@
 package goleet
 
-func isMatch(s string, p string) bool {
+func isMatchReg(s string, p string) bool {
 	lens, lenp := len(s), len(p)
 	var dp [][]bool = make([][]bool, lens+1)
 	for a := range dp {
