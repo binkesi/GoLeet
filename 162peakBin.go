@@ -1,6 +1,6 @@
 package goleet
 
-func findPeakElement(nums []int) int {
+func findPeakElementBin(nums []int) int {
 	lenN := len(nums)
 	if lenN == 1 {
 		return 0
@@ -17,7 +17,7 @@ func findPeakElement(nums []int) int {
 	}
 }
 
-func isPeak(nums []int, ind int) bool {
+func isPeakBin(nums []int, ind int) bool {
 	lenN := len(nums)
 	if ind == 0 {
 		return nums[ind] > nums[1]
