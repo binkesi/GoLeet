@@ -25,14 +25,14 @@ func searchMatrix(matrix [][]int, target int) bool {
 	}
 	fmt.Println(start, end)
 	for j := start; j <= end; j++ {
-		if binSearch(matrix[j], target) {
+		if binSearchZ(matrix[j], target) {
 			return true
 		}
 	}
 	return false
 }
 
-func binSearch(nums []int, target int) bool {
+func binSearchZ(nums []int, target int) bool {
 	lenM := len(nums)
 	left, right := 0, lenM-1
 	mid := (left + right) / 2
