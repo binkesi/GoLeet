@@ -3,11 +3,11 @@ package goleet
 // https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/
 
 func kthSmallest(matrix [][]int, k int) int {
-	sortArr := combine(matrix)
+	sortArr := combinek(matrix)
 	return sortArr[k-1]
 }
 
-func combine(matrix [][]int) []int {
+func combinek(matrix [][]int) []int {
 	lenM := len(matrix)
 	if lenM == 1 {
 		return matrix[0]
@@ -15,7 +15,7 @@ func combine(matrix [][]int) []int {
 	if lenM == 2 {
 		return mergeTwo(matrix[0], matrix[1])
 	}
-	return mergeTwo(combine(matrix[0:lenM/2]), combine(matrix[lenM/2:]))
+	return mergeTwo(combinek(matrix[0:lenM/2]), combinek(matrix[lenM/2:]))
 }
 
 func mergeTwo(nums1, nums2 []int) []int {
