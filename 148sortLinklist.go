@@ -2,13 +2,13 @@ package goleet
 
 // https://leetcode-cn.com/problems/sort-list/
 
-type ListNode struct {
+type ListNodel struct {
 	Val  int
-	Next *ListNode
+	Next *ListNodel
 }
 
-func merge(head1, head2 *ListNode) *ListNode {
-	dummyHead := &ListNode{}
+func merge(head1, head2 *ListNodel) *ListNodel {
+	dummyHead := &ListNodel{}
 	temp, temp1, temp2 := dummyHead, head1, head2
 	for temp1 != nil && temp2 != nil {
 		if temp1.Val <= temp2.Val {
@@ -28,7 +28,7 @@ func merge(head1, head2 *ListNode) *ListNode {
 	return dummyHead.Next
 }
 
-func sort(head, tail *ListNode) *ListNode {
+func sortl(head, tail *ListNodel) *ListNodel {
 	if head == nil {
 		return head
 	}
@@ -48,9 +48,9 @@ func sort(head, tail *ListNode) *ListNode {
 	}
 
 	mid := slow
-	return merge(sort(head, mid), sort(mid, tail))
+	return merge(sortl(head, mid), sortl(mid, tail))
 }
 
-func sortList(head *ListNode) *ListNode {
-	return sort(head, nil)
+func sortList(head *ListNodel) *ListNodel {
+	return sortl(head, nil)
 }
