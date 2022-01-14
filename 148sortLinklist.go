@@ -1,5 +1,7 @@
 package goleet
 
+import "fmt"
+
 // https://leetcode-cn.com/problems/sort-list/
 
 type ListNode struct {
@@ -53,4 +55,8 @@ func sort(head, tail *ListNode) *ListNode {
 
 func sortList(head *ListNode) *ListNode {
 	return sort(head, nil)
+}
+
+func main(){
+	fmt.Println("Hello world")
 }
