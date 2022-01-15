@@ -1,23 +1,25 @@
 package goleet
 
+import "math"
+
 // https://leetcode-cn.com/problems/validate-binary-search-tree/
 
 func isValidBST(root *TreeNode) bool {
-	var res []int = make([]int, 0)
-	var inorder func(node *TreeNode)
-	inorder = func(node *TreeNode) {
+	var res int = math.MinInt64
+	var inorder func(node *TreeNode) bool
+	inorder = func(node *TreeNode) bool {
 		if node == nil {
-			return
+			return true
 		}
-		inorder(node.Left)
-		res = append(res, node.Val)
-		inorder(node.Right)
-	}
-	inorder(root)
-	for i := 1; i < len(res); i++ {
-		if res[i] <= res[i-1] {
+		res1 := inorder(node.Left)
+		tmp := node.Val
+		if tmp <= res {
 			return false
+		} else {
+			res = tmp
 		}
+		res2 := inorder(node.Right)
+		return res1 && res2
 	}
-	return true
+	return inorder(root)
 }
