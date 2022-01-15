@@ -2,6 +2,12 @@ package goleet
 
 import "math"
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func maxPathSum(root *TreeNode) int {
 	maxPath := math.MinInt32
 	var maxGain func(*TreeNode) int

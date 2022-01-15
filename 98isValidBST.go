@@ -4,6 +4,12 @@ import "math"
 
 // https://leetcode-cn.com/problems/validate-binary-search-tree/
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func isValidBST(root *TreeNode) bool {
 	var res int = math.MinInt64
 	var inorder func(node *TreeNode) bool
