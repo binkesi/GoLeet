@@ -6,7 +6,7 @@ func findPeakElementBin(nums []int) int {
 		return 0
 	}
 	for ind, piviot1, piviot2 := lenN/2, 0, lenN-1; ; {
-		if isPeak(nums, ind) {
+		if isPeakBin(nums, ind) {
 			return ind
 		} else if ind < lenN-1 && nums[ind+1] > nums[ind] {
 			piviot1 = ind + 1
