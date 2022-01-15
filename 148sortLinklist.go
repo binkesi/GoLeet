@@ -7,9 +7,9 @@ type ListNodel struct {
 	Next *ListNodel
 }
 
-func merge(head1, head2 *ListNodel) *ListNodel {
+func mergeTwoList(lis1, lis2 *ListNodel) *ListNodel {
 	dummyHead := &ListNodel{}
-	temp, temp1, temp2 := dummyHead, head1, head2
+	temp, temp1, temp2 := dummyHead, lis1, lis2
 	for temp1 != nil && temp2 != nil {
 		if temp1.Val <= temp2.Val {
 			temp.Next = temp1
@@ -28,16 +28,14 @@ func merge(head1, head2 *ListNodel) *ListNodel {
 	return dummyHead.Next
 }
 
-func sortl(head, tail *ListNodel) *ListNodel {
+func mergeSortList(head, tail *ListNodel) *ListNodel {
 	if head == nil {
 		return head
 	}
-
 	if head.Next == tail {
 		head.Next = nil
 		return head
 	}
-
 	slow, fast := head, head
 	for fast != tail {
 		slow = slow.Next
@@ -46,11 +44,10 @@ func sortl(head, tail *ListNodel) *ListNodel {
 			fast = fast.Next
 		}
 	}
-
 	mid := slow
-	return merge(sortl(head, mid), sortl(mid, tail))
+	return mergeTwoList(mergeSortList(head, mid), mergeSortList(mid, tail))
 }
 
 func sortList(head *ListNodel) *ListNodel {
-	return sortl(head, nil)
+	return mergeSortList(head, nil)
 }
