@@ -2,7 +2,7 @@ package goleet
 
 // https://leetcode-cn.com/contest/weekly-contest-276/problems/minimum-moves-to-reach-target-score/
 
-func minMoves(target int, maxDoubles int) int {
+func minMovesSec(target int, maxDoubles int) int {
 	var res int = 0
 	for target != 1 {
 		if target%2 == 1 {
