@@ -2,7 +2,7 @@ package goleet
 
 // https://leetcode-cn.com/problems/first-missing-positive/
 
-func firstMissingPositive(nums []int) int {
+func firstMissingPositiveSec(nums []int) int {
 	lenN := len(nums)
 	for i := 0; i < lenN; i++ {
 		if nums[i] <= 0 {
