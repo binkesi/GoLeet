@@ -38,10 +38,10 @@ func getKth(nums1, nums2 []int, k int) int {
 	}
 }
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	} else {
-		return a
-	}
-}
+// func min(a, b int) int {
+// 	if a > b {
+// 		return b
+// 	} else {
+// 		return a
+// 	}
+// }

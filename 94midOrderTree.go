@@ -1,10 +1,10 @@
 package goleet
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
+// type TreeNode struct {
+// 	Val   int
+// 	Left  *TreeNode
+// 	Right *TreeNode
+// }
 
 func inorderTraversal(root *TreeNode) (res []int) {
 	var inorder func(node *TreeNode)
