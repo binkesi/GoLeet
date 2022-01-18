@@ -10,6 +10,9 @@ import (
 
 func findMinDifference(timePoints []string) int {
 	lenF := len(timePoints)
+	if lenF >= 1440 {
+		return 0
+	}
 	var res int = math.MaxInt32
 	var minPoints []int = make([]int, 0)
 	const dayMinutes int = 1440
