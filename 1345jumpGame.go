@@ -12,25 +12,21 @@ func minJumps(arr []int) int {
 		graph[i] = make([]int, 0)
 	}
 	for i := 0; i < lenA; i++ {
-		edges := graph[i]
-		for k := i + 1; k < lenA; k++ {
-			if len(edges) > 0 {
-				break
-			}
-			if arr[k] == arr[i] {
-				for j := 0; j < len(edges); j++ {
-					graph[edges[j]] = append(graph[edges[j]], k)
-					edges = append(edges, k)
-				}
-			}
-		}
 		if i == 0 {
-			edges = append(edges, 1)
+			graph[i] = append(graph[i], 1)
 		} else if i == lenA-1 {
-			edges = append(edges, lenA-2)
+			graph[i] = append(graph[i], lenA-2)
 		} else {
-			edges = append(edges, i-1)
-			edges = append(edges, i+1)
+			graph[i] = append(graph[i], i-1)
+			graph[i] = append(graph[i], i+1)
+		}
+	}
+	for i := 0; i < lenA; i++ {
+		for k := i + 1; k < lenA; k++ {
+			if arr[k] == arr[i] {
+				graph[i] = append(graph[i], k)
+				graph[k] = append(graph[k], i)
+			}
 		}
 	}
 	minPath := bfs(graph, 0, lenA-1)
@@ -45,7 +41,21 @@ func bfs(graph [][]int, start, end int) int {
 	var queue []int = make([]int, 0)
 	queue = append(queue, start)
 	for len(queue) != 0 {
-		cur := queue[0]
-		queue = queue[1:]
+		lenQ := len(queue)
+		for i := 0; i < lenQ; i++ {
+			cur := queue[i]
+			if cur == end {
+				return path
+			}
+			for _, v := range graph[cur] {
+				if visited[v] == false {
+					visited[v] = true
+					queue = append(queue, v)
+				}
+			}
+		}
+		path += 1
+		queue = queue[lenQ:]
 	}
+	return path
 }
