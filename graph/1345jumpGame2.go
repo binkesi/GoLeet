@@ -4,7 +4,7 @@ package graph
 
 func minJumps2(arr []int) int {
 	lenA := len(arr)
-	vgraph := make(map[int][]int, 0)
+	vgraph := make(map[int][]int)
 	for i, v := range arr {
 		vgraph[v] = append(vgraph[v], i)
 	}
