@@ -10,9 +10,8 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	for i, j := 0, 0; i < lenW; i++ {
 		if wordList[i] == endWord {
 			j = 1
-		}
-		if ableConvert(wordList[i], endWord) {
-			convertMap[lenW] = append(convertMap[i], lenW)
+		} else if ableConvert(wordList[i], endWord) {
+			convertMap[i] = append(convertMap[i], lenW)
 		}
 		if i == lenW-1 && j == 0 {
 			return 0
@@ -22,6 +21,12 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		if ableConvert(beginWord, wordList[i]) {
 			convertMap[-1] = append(convertMap[-1], i)
 		}
+		if ableConvert(beginWord, endWord) {
+			convertMap[-1] = append(convertMap[-1], lenW)
+		}
+	}
+	if len(convertMap[-1]) == 0 {
+		return 0
 	}
 	for i := 0; i < lenW; i++ {
 		for j := i + 1; j < lenW; j++ {
@@ -31,11 +36,16 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 			}
 		}
 	}
+	for i := 0; i < lenW; i++ {
+		if wordList[i] == endWord {
+			delete(convertMap, i)
+		}
+	}
 	fmt.Println(convertMap)
 	type pair struct{ idx, step int }
-	queue := []pair{{idx: -1, step: 0}}
+	queue := []pair{{idx: -1, step: 1}}
 	visited := map[int]bool{-1: true}
-	for {
+	for len(queue) != 0 {
 		q := queue[0]
 		queue = queue[1:]
 		idx, step := q.idx, q.step
@@ -49,6 +59,7 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 			}
 		}
 	}
+	return 0
 }
 
 func ableConvert(a, b string) bool {
