@@ -1,7 +1,5 @@
 package graph
 
-import "fmt"
-
 // https://leetcode-cn.com/problems/word-ladder/
 
 func ladderLength(beginWord string, endWord string, wordList []string) int {
@@ -41,7 +39,6 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 			delete(convertMap, i)
 		}
 	}
-	fmt.Println(convertMap)
 	type pair struct{ idx, step int }
 	queue := []pair{{idx: -1, step: 1}}
 	visited := map[int]bool{-1: true}
