@@ -4,32 +4,23 @@ package weekgame
 
 func subStrHash(s string, power int, modulo int, k int, hashValue int) string {
 	lenS := len(s)
-	res := 0
-	for i := 0; i < lenS-k+1; i++ {
-		substr := s[i : i+k]
-		if res == 0 {
-			for j := 0; j < k; j++ {
-				val := (power1(power, j, modulo) % modulo) * int(substr[j]-'a'+1)
-				res += (val % modulo)
-			}
-		} else {
-			res = (res*power - (int(s[i-1] - 'a' + 1)) + int(s[i+k-1]-'a'+1)*(power1(power, k-1, modulo)%modulo)) % modulo
-		}
-		if res%modulo == hashValue {
-			return substr
-		}
+	var ans string
+	if k == lenS {
+		return s
 	}
-	return s
-}
-
-func power1(a, n, mod int) int {
-	ans := 1
-	for n != 0 {
-		if n&1 == 1 {
-			ans = (a * ans) % mod
+	hash, p, i := 0, 1, lenS-1
+	for ; i >= lenS-k; i-- {
+		hash = (hash*power + int(s[i]&31)) % modulo
+		p = (p * power) % modulo
+	}
+	if hash == hashValue {
+		ans = s[lenS-k:]
+	}
+	for ; i >= 0; i-- {
+		hash = (hash*power + int(s[i]&31) + modulo - p*int(s[i+k]&31)%modulo) % modulo
+		if hash == hashValue {
+			ans = s[i : i+k]
 		}
-		a = (a * a) % mod
-		n = n >> 1
 	}
 	return ans
 }
