@@ -1,14 +1,12 @@
 // https://leetcode-cn.com/problems/add-two-numbers/
 package arraymanipulate
 
-/**
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
-*/
+// Definition for singly-linked list.
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	if l1.Val == 0 && l1.Next == nil {
 		return l2
