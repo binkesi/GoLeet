@@ -1,5 +1,7 @@
 package disjointset
 
+import "fmt"
+
 // https://leetcode-cn.com/problems/number-of-islands/
 
 func numIslands(grid [][]byte) (ans int) {
@@ -11,8 +13,6 @@ func numIslands(grid [][]byte) (ans int) {
 		for j := 0; j < c; j++ {
 			if grid[i][j] == '1' {
 				idx := i*c + j
-				root := uf.Find(idx)
-				islandMap[root] = struct{}{}
 				for _, v := range dirs {
 					nx, ny := i+v[0], j+v[1]
 					ndx := nx*c + ny
@@ -21,13 +21,19 @@ func numIslands(grid [][]byte) (ans int) {
 							continue
 						}
 						uf.Union(idx, ndx)
-						root = uf.Find(ndx)
-						islandMap[root] = struct{}{}
 					}
 				}
 			}
 		}
 	}
+	for i := 0; i < r; i++ {
+		for j := 0; j < c; j++ {
+			if uf.parent[i][j] >= 0 {
+				islandMap[uf.parent[i][j]] = struct{}{}
+			}
+		}
+	}
+	fmt.Println(uf.parent)
 	ans = len(islandMap)
 	return
 }
@@ -45,7 +51,11 @@ func NewisUF(grid [][]byte) *islandUF {
 	}
 	for i := 0; i < r; i++ {
 		for j := 0; j < c; j++ {
-			uf.parent[i][j] = i*r + j
+			if grid[i][j] == '1' {
+				uf.parent[i][j] = i*c + j
+			} else {
+				uf.parent[i][j] = -1
+			}
 		}
 	}
 	return &uf
@@ -61,7 +71,7 @@ func (uf *islandUF) Union(i, j int) {
 		x, y := pj/c, pj%c
 		uf.parent[x][y] = pi
 	} else {
-		x, y := pi/c, pj%c
+		x, y := pi/c, pi%c
 		uf.parent[x][y] = pj
 	}
 }
