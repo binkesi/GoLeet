@@ -6,7 +6,7 @@ type Bank struct {
 	customers []int64
 }
 
-func Constructor(balance []int64) Bank {
+func Constructor2(balance []int64) Bank {
 	return Bank{customers: balance}
 }
 
