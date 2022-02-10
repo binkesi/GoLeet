@@ -8,7 +8,7 @@ func simplifiedFractions(n int) (ans []string) {
 	res := [][2]int{}
 	for i := 2; i <= n; i++ {
 		for j := 1; j < i; j++ {
-			if isValidFrac(j, i) {
+			if gcd(i, j) == 1 {
 				res = append(res, [2]int{j, i})
 			}
 		}
@@ -20,11 +20,9 @@ func simplifiedFractions(n int) (ans []string) {
 	return ans
 }
 
-func isValidFrac(a, b int) bool {
-	for i := 2; i <= a && i <= b/2; i++ {
-		if a%i == 0 && b%i == 0 {
-			return false
-		}
+func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
 	}
-	return true
+	return b
 }
