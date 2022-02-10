@@ -1,4 +1,4 @@
-package disjointset
+package dfsbfs
 
 // https://leetcode-cn.com/problems/number-of-islands/
 
