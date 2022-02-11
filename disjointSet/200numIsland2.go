@@ -1,7 +1,5 @@
 package disjointset
 
-import "fmt"
-
 // https://leetcode-cn.com/problems/number-of-islands/
 
 func numIslands(grid [][]byte) (ans int) {
@@ -29,11 +27,11 @@ func numIslands(grid [][]byte) (ans int) {
 	for i := 0; i < r; i++ {
 		for j := 0; j < c; j++ {
 			if uf.parent[i][j] >= 0 {
+				_ = uf.Find(i*c + j)
 				islandMap[uf.parent[i][j]] = struct{}{}
 			}
 		}
 	}
-	fmt.Println(uf.parent)
 	ans = len(islandMap)
 	return
 }
