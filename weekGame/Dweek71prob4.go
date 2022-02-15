@@ -10,78 +10,56 @@ import (
 func minimumDifference(nums []int) (ans int64) {
 	lenN := len(nums)
 	n := lenN / 3
-	numsF, numsM, numsS := nums[0:n], nums[n:2*n], nums[2*n:]
-	sort.Ints(numsM)
-	for i := 0; i < n; i++ {
-		ans = ans + int64(numsF[i]-numsS[i])
+	minh := minHeap{nums[2*n:]}
+	curminSum := 0
+	for i := 2 * n; i < lenN; i++ {
+		curminSum += nums[i]
 	}
-	hl, hs := &lHeap{}, &sHeap{}
+	heap.Init(&minh)
+	maxh := maxHeap{nums[0:n]}
+	curmaxSum := 0
 	for i := 0; i < n; i++ {
-		heap.Push(hl, numsF[i])
-		heap.Push(hs, numsS[i])
+		curmaxSum += nums[i]
 	}
-	for j, l, r := 0, 0, n-1; j < n; j++ {
-		hlnum, hsnum := (*hl)[0], (*hs)[0]
-		lnum, rnum := numsM[l], numsM[r]
-		if hlnum-lnum <= 0 && rnum-hsnum <= 0 {
-			l += 1
-			continue
+	heap.Init(&maxh)
+	minSum := []int{curminSum}
+	for i := 2*n - 1; i >= n; i-- {
+		curMin := minh.IntSlice[0]
+		if nums[i] > curMin {
+			minh.IntSlice[0] = nums[i]
+			heap.Fix(minh, 0)
+			curminSum = curminSum - curMin + nums[i]
 		}
-		if hlnum-lnum >= rnum-hsnum {
-			heap.Pop(hl)
-			heap.Push(hl, lnum)
-			l += 1
-			ans -= int64(hlnum - lnum)
-		} else {
-			heap.Pop(hs)
-			heap.Push(hs, rnum)
-			r -= 1
-			ans -= int64(rnum - hsnum)
+		minSum = append(minSum, curminSum)
+	}
+	ans = int64(curmaxSum - minSum[n-1])
+
+	for i := n; i <= 2*n; i++ {
+		curDif := curmaxSum - minSum[2*n-i]
+		if int64(curDif) < ans {
+			ans = int64(curDif)
+		}
+		curMax := maxh.IntSlice[0]
+		if nums[i] < curMax {
+			maxh.IntSlice[0] = nums[i]
+			heap.Fix(maxh, 0)
+			curmaxSum = curmaxSum - curMax + nums[i]
 		}
 	}
 	return
 }
 
-type lHeap []int
-
-func (h lHeap) Len() int { return len(h) }
-func (h lHeap) Less(i, j int) bool {
-	return h[i] > h[j]
-}
-func (h lHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
+type minHeap struct {
+	sort.IntSlice
 }
 
-func (h *lHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
+func (minHeap) Push(interface{})     {}
+func (minHeap) Pop() (_ interface{}) { return }
+
+type maxHeap struct {
+	sort.IntSlice
 }
 
-func (h *lHeap) Push(x interface{}) {
-	*h = append(*h, x.(int))
-}
-
-type sHeap []int
-
-func (h sHeap) Len() int { return len(h) }
-func (h sHeap) Less(i, j int) bool {
-	return h[i] < h[j]
-}
-func (h sHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
-}
-
-func (h *sHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
-}
-
-func (h *sHeap) Push(x interface{}) {
-	*h = append(*h, x.(int))
-}
+func (m maxHeap) Less(i, j int) bool { return m.IntSlice[i] > m.IntSlice[j] }
+func (maxHeap) Push(interface{})     {}
+func (maxHeap) Pop() (_ interface{}) { return }
