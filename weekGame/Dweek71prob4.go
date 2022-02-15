@@ -1,6 +1,9 @@
 package weekgame
 
-import "container/heap"
+import (
+	"container/heap"
+	"sort"
+)
 
 // https://leetcode-cn.com/problems/minimum-difference-in-sums-after-removal-of-elements/
 
@@ -8,6 +11,7 @@ func minimumDifference(nums []int) (ans int64) {
 	lenN := len(nums)
 	n := lenN / 3
 	numsF, numsM, numsS := nums[0:n], nums[n:2*n], nums[2*n:]
+	sort.Ints(numsM)
 	for i := 0; i < n; i++ {
 		ans = ans + int64(numsF[i]-numsS[i])
 	}
@@ -17,18 +21,22 @@ func minimumDifference(nums []int) (ans int64) {
 		heap.Push(hs, numsS[i])
 	}
 	for j, l, r := 0, 0, n-1; j < n; j++ {
-		hlnum, hsnum := heap.Pop(hl), heap.Pop(hs)
+		hlnum, hsnum := (*hl)[0], (*hs)[0]
 		lnum, rnum := numsM[l], numsM[r]
-		if hlnum.(int)-lnum >= rnum-hsnum.(int) {
-			heap.Push(hl, lnum)
-			heap.Push(hs, hsnum)
+		if hlnum-lnum <= 0 && rnum-hsnum <= 0 {
 			l += 1
-			ans -= int64(hlnum.(int) - lnum)
+			continue
+		}
+		if hlnum-lnum >= rnum-hsnum {
+			heap.Pop(hl)
+			heap.Push(hl, lnum)
+			l += 1
+			ans -= int64(hlnum - lnum)
 		} else {
+			heap.Pop(hs)
 			heap.Push(hs, rnum)
-			heap.Push(hl, hlnum)
 			r -= 1
-			ans -= int64(rnum - hsnum.(int))
+			ans -= int64(rnum - hsnum)
 		}
 	}
 	return
