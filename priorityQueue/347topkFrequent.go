@@ -4,39 +4,40 @@ import "container/heap"
 
 // https://leetcode-cn.com/problems/top-k-frequent-elements/
 
-func topKFrequent(nums []int, k int) (ans []int) {
-	nMap := make(map[int]int)
-	for _, v := range nums {
-		if _, ok := nMap[v]; !ok {
-			nMap[v] = 1
-		} else {
-			nMap[v] += 1
+func topKFrequent(nums []int, k int) []int {
+	occurrences := map[int]int{}
+	for _, num := range nums {
+		occurrences[num]++
+	}
+	h := &IHeap{}
+	heap.Init(h)
+	for key, value := range occurrences {
+		heap.Push(h, [2]int{key, value})
+		if h.Len() > k {
+			heap.Pop(h)
 		}
 	}
-	nlis := make([][2]int, 0)
-	for k, v := range nMap {
-		nlis = append(nlis, [2]int{v, k})
+	ret := make([]int, k)
+	for i := 0; i < k; i++ {
+		ret[k-i-1] = heap.Pop(h).([2]int)[0]
 	}
-	ll := lheap(nlis)
-	heap.Init(&ll)
-	for i := 1; i <= k; i++ {
-		ans = append(ans, ll.Pop().([2]int)[1])
-		heap.Fix(ll, 0)
-	}
-	return
+	return ret
 }
 
-type lheap [][2]int
+type IHeap [][2]int
 
-func (h lheap) Len() int { return len(h) }
-func (h lheap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
+func (h IHeap) Len() int           { return len(h) }
+func (h IHeap) Less(i, j int) bool { return h[i][1] < h[j][1] }
+func (h IHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *IHeap) Push(x interface{}) {
+	*h = append(*h, x.([2]int))
 }
-func (h lheap) Less(i, j int) bool  { return h[i][0] > h[j][0] }
-func (h *lheap) Push(a interface{}) { *h = append(*h, a.([2]int)) }
-func (h *lheap) Pop() interface{} {
+
+func (h *IHeap) Pop() interface{} {
 	old := *h
-	res := old[0]
-	*h = old[1:]
-	return res
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
 }
