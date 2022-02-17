@@ -1,5 +1,5 @@
 // https://leetcode-cn.com/problems/container-with-most-water/
-package goleet
+package dynamicprocess
 
 import (
 	"math"
