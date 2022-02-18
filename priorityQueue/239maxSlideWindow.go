@@ -11,17 +11,16 @@ func maxSlidingWindow(nums []int, k int) (ans []int) {
 	for i := 0; i < k; i++ {
 		heap.Push(&lheap, [2]int{i, nums[i]})
 	}
-	val := heap.Pop(&lheap).([2]int)
+	val := lheap[0]
 	ans = append(ans, val[1])
-	heap.Push(&lheap, [2]int{val[0], val[1]})
 	for j := 1; j <= l-k; j++ {
 		heap.Push(&lheap, [2]int{j + k - 1, nums[j+k-1]})
-		maxV := heap.Pop(&lheap).([2]int)
+		maxV := lheap[0]
 		for maxV[0] < j {
-			maxV = heap.Pop(&lheap).([2]int)
+			_ = heap.Pop(&lheap).([2]int)
+			maxV = lheap[0]
 		}
 		ans = append(ans, maxV[1])
-		heap.Push(&lheap, maxV)
 	}
 	return
 }
