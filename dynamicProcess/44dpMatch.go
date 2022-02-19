@@ -1,4 +1,4 @@
-package goleet
+package dynamicprocess
 
 func isMatchReg(s string, p string) bool {
 	lens, lenp := len(s), len(p)

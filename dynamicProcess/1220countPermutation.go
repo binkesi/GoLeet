@@ -1,4 +1,4 @@
-package goleet
+package dynamicprocess
 
 // https://leetcode-cn.com/problems/count-vowels-permutation/
 

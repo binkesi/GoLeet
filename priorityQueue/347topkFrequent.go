@@ -4,30 +4,27 @@ import "container/heap"
 
 // https://leetcode-cn.com/problems/top-k-frequent-elements/
 
-func topKFrequent(nums []int, k int) []int {
+func topKFrequent(nums []int, k int) (ans []int) {
 	occurrences := map[int]int{}
 	for _, num := range nums {
 		occurrences[num]++
 	}
-	h := &IHeap{}
-	heap.Init(h)
+	var lheap IHeap
 	for key, value := range occurrences {
-		heap.Push(h, [2]int{key, value})
-		if h.Len() > k {
-			heap.Pop(h)
-		}
+		lheap = append(lheap, [2]int{key, value})
 	}
-	ret := make([]int, k)
+	heap.Init(&lheap)
 	for i := 0; i < k; i++ {
-		ret[k-i-1] = heap.Pop(h).([2]int)[0]
+		res := heap.Pop(&lheap)
+		ans = append(ans, res.([2]int)[0])
 	}
-	return ret
+	return
 }
 
 type IHeap [][2]int
 
 func (h IHeap) Len() int           { return len(h) }
-func (h IHeap) Less(i, j int) bool { return h[i][1] < h[j][1] }
+func (h IHeap) Less(i, j int) bool { return h[i][1] > h[j][1] }
 func (h IHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 
 func (h *IHeap) Push(x interface{}) {
