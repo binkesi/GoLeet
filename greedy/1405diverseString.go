@@ -1,4 +1,4 @@
-package stringparse
+package greedy
 
 // https://leetcode-cn.com/problems/longest-happy-string/
 
