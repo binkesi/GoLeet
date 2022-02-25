@@ -23,9 +23,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 			return false
 		}
 		for _, v := range courseMap {
-			if _, ok := v[pop]; ok {
-				delete(v, pop)
-			}
+			delete(v, pop)
 		}
 		pop = -1
 	}
