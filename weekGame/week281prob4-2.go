@@ -14,14 +14,14 @@ func coutPairs2(nums []int, k int) (ans int64) {
 		if v > 0 {
 			for j := 1; j <= i; j++ {
 				if j*k/i == i {
-					ans += int64(v * (v - 1) / 2)
+					ans += int64(v * (v - 1) / 2) // 同一个因子的时候要注意会重复算相同下标
 				} else if j*k/i > i {
-					ans += int64(v * gcdArr[j*k/i])
+					ans += int64(v * gcdArr[j*k/i]) // 不同因子只算比第一个因子大的
 				}
 			}
 		}
 	}
-	ans += int64(gcdArr[k] * (gcdArr[k] - 1) / 2)
+	ans += int64(gcdArr[k] * (gcdArr[k] - 1) / 2) // 注意再加上因子k的
 	return
 }
 
