@@ -3,8 +3,8 @@ package arraymanipulate
 // https://leetcode-cn.com/problems/smallest-rotation-with-highest-score/
 
 func bestRotation(nums []int) (ans int) {
-	res := make([]int, 100010)
 	n := len(nums)
+	res := make([]int, n+1)
 	var add func(int, int)
 	add = func(i1, i2 int) {
 		res[i1] += 1
@@ -20,10 +20,10 @@ func bestRotation(nums []int) (ans int) {
 		}
 	}
 	tmp := res[0]
-	for i := 1; i < 100010; i++ {
+	for i := 1; i < n+1; i++ {
 		res[i] += res[i-1]
 	}
-	for i := 1; i < 100010; i++ {
+	for i := 1; i < n+1; i++ {
 		if res[i] > tmp {
 			tmp = res[i]
 			ans = i
