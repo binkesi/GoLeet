@@ -11,7 +11,7 @@ func bestRotation(nums []int) (ans int) {
 		res[i2+1] -= 1
 	}
 	for i := 0; i < n; i++ {
-		a, b := (i-(n-1)+n)%n, (i-nums[i]+n)%n
+		a, b := (i+1)%n, (i-nums[i]+n)%n
 		if a <= b {
 			add(a, b)
 		} else {
@@ -23,11 +23,11 @@ func bestRotation(nums []int) (ans int) {
 	for i := 1; i < n+1; i++ {
 		res[i] += res[i-1]
 	}
-	for i := 1; i < n+1; i++ {
-		if res[i] > tmp {
-			tmp = res[i]
-			ans = i
+	for j := 1; j < n+1; j++ {
+		if res[j] > tmp {
+			tmp = res[j]
+			ans = j
 		}
 	}
-	return
+	return ans
 }
