@@ -1,33 +1,69 @@
 package weekgame
 
-// https://leetcode-cn.com/problems/replace-non-coprime-numbers-in-array/
+import "container/heap"
 
-func replaceNonCoprimes(nums []int) []int {
-	n := len(nums)
-	nStack := []int{nums[0]}
-	for i := 1; i < n; i++ {
-		nStack = append(nStack, nums[i])
-		for len(nStack) != 1 {
-			a, b := nStack[len(nStack)-1], nStack[len(nStack)-2]
-			if ok, v := notCoprime(a, b); ok {
-				m := a * b / v
-				nStack[len(nStack)-2] = m
-				nStack = nStack[0 : len(nStack)-1]
-			} else {
-				break
+// https://leetcode-cn.com/problems/minimum-weighted-subgraph-with-the-required-paths/
+
+type edge struct{ to, wt int }
+
+func dijkstra(g [][]edge, start int) []int {
+	dis := make([]int, len(g))
+	for i := range dis {
+		dis[i] = 1e18
+	}
+	dis[start] = 0
+	h := hp{{start, 0}}
+	for len(h) > 0 {
+		p := heap.Pop(&h).(pair)
+		v := p.v
+		if dis[v] < p.dis {
+			continue
+		}
+		for _, e := range g[v] {
+			w := e.to
+			if newD := dis[v] + e.wt; newD < dis[w] {
+				dis[w] = newD
+				heap.Push(&h, pair{w, newD})
 			}
 		}
 	}
-	return nStack
+	return dis
 }
 
-func notCoprime(a, b int) (bool, int) {
-	for a%b != 0 {
-		a, b = b, a%b
+func minimumWeight(n int, edges [][]int, src1, src2, dest int) int64 {
+	g := make([][]edge, n)
+	rg := make([][]edge, n)
+	for _, e := range edges {
+		v, w, wt := e[0], e[1], e[2]
+		g[v] = append(g[v], edge{w, wt})
+		rg[w] = append(rg[w], edge{v, wt})
 	}
-	if b > 1 {
-		return true, b
-	} else {
-		return false, b
+
+	d1 := dijkstra(g, src1)
+	d2 := dijkstra(g, src2)
+	d3 := dijkstra(rg, dest)
+
+	ans := int(1e18)
+	for x := 0; x < n; x++ {
+		ans = min(ans, d1[x]+d2[x]+d3[x])
 	}
+	if ans < 1e18 {
+		return int64(ans)
+	}
+	return -1
+}
+
+type pair struct{ v, dis int }
+type hp []pair
+
+func (h hp) Len() int              { return len(h) }
+func (h hp) Less(i, j int) bool    { return h[i].dis < h[j].dis }
+func (h hp) Swap(i, j int)         { h[i], h[j] = h[j], h[i] }
+func (h *hp) Push(v interface{})   { *h = append(*h, v.(pair)) }
+func (h *hp) Pop() (v interface{}) { a := *h; *h, v = a[:len(a)-1], a[len(a)-1]; return }
+func min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
