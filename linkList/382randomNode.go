@@ -13,7 +13,7 @@ type Solution struct {
 	head *ListNode
 }
 
-func Constructor(head *ListNode) Solution {
+func Constructor2(head *ListNode) Solution {
 	return Solution{
 		head: head,
 	}
