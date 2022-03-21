@@ -24,3 +24,30 @@ func findTarget(root *TreeNode, k int) bool {
 	}
 	return dfs(root)
 }
+
+func findTarget2(root *TreeNode, k int) bool {
+	nArr := []int{}
+	var inorder func(*TreeNode)
+	inorder = func(tn *TreeNode) {
+		if tn == nil {
+			return
+		}
+		inorder(tn.Left)
+		nArr = append(nArr, tn.Val)
+		inorder(tn.Right)
+	}
+	inorder(root)
+	p1, p2 := 0, len(nArr)-1
+	for p1 < p2 {
+		sum := nArr[p1] + nArr[p2]
+		if sum == k {
+			return true
+		}
+		if sum < k {
+			p1++
+		} else {
+			p2--
+		}
+	}
+	return false
+}
