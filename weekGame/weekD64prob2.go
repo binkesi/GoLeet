@@ -24,17 +24,17 @@ func maxTwoEvents(events [][]int) int {
 			}
 		}
 		if idx >= 0 {
-			dp[i][0] = maxN(dp[i-1][0], val)
-			dp[i][1] = maxN(dp[i-1][1], dp[idx][0]+val)
+			dp[i][0] = max(dp[i-1][0], val)
+			dp[i][1] = max(dp[i-1][1], dp[idx][0]+val)
 		} else {
-			dp[i][0] = maxN(dp[i-1][0], val)
-			dp[i][1] = maxN(dp[i-1][1], val)
+			dp[i][0] = max(dp[i-1][0], val)
+			dp[i][1] = max(dp[i-1][1], val)
 		}
 	}
 	return dp[lenE-1][1]
 }
 
-func maxN(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	} else {

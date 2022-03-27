@@ -21,9 +21,27 @@ func maxValueOfCoins(piles [][]int, k int) (ans int) {
 		for c := sumN; c > 0; c-- {
 			dp[i][c] = dp[i-1][c]
 			for w, v := range piles[i][:min(l, c)] {
-				dp[i][c] = maxN(dp[i][c], dp[i-1][c-w-1]+v)
+				dp[i][c] = max(dp[i][c], dp[i-1][c-w-1]+v)
 			}
 		}
 	}
 	return dp[n-1][k]
+}
+
+func maxValueOfCoins2(piles [][]int, k int) (ans int) {
+	dp := make([]int, k+1)
+	up := 0
+	for _, pile := range piles {
+		l := len(pile)
+		for j := 1; j < l; j++ {
+			pile[j] += pile[j-1]
+		}
+		up = min(up+l, k)
+		for c := up; c > 0; c-- {
+			for i, v := range pile[:min(c, l)] {
+				dp[c] = max(dp[c], dp[c-i-1]+v)
+			}
+		}
+	}
+	return dp[k]
 }

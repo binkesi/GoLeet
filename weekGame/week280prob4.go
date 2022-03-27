@@ -16,8 +16,8 @@ func maximumANDSum(nums []int, numSlots int) (ans int) {
 		for j := 0; j < numSlots*2; j++ {
 			if i>>j&1 == 0 {
 				s := i | 1<<j
-				stats[s] = maxN(stats[s], fi+(j/2+1)&nums[c])
-				ans = maxN(ans, stats[s])
+				stats[s] = max(stats[s], fi+(j/2+1)&nums[c])
+				ans = max(ans, stats[s])
 			}
 		}
 	}
