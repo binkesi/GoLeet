@@ -18,15 +18,13 @@ func missingRolls(rolls []int, mean int, n int) (ans []int) {
 		}
 	} else {
 		ele := left / n
-		for left != 0 {
-			if left != n*(ele+1) {
-				ans = append(ans, ele)
-				left -= ele
-			} else {
+		num := left % n
+		for i := 0; i < n; i++ {
+			if i < num {
 				ans = append(ans, ele+1)
-				left -= ele + 1
+			} else {
+				ans = append(ans, ele)
 			}
-			n--
 		}
 	}
 	return
