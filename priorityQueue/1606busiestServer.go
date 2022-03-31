@@ -1,13 +1,3 @@
-package priorityqueue
-
-import (
-	"container/heap"
-	"fmt"
-	"sort"
-)
-
-// https://leetcode-cn.com/problems/find-servers-that-handled-most-number-of-requests/
-
 func busiestServers(k int, arrival []int, load []int) (ans []int) {
 	cnt := make([][2]int, k)
 	for i := range cnt {
@@ -47,31 +37,31 @@ func busiestServers(k int, arrival []int, load []int) (ans []int) {
 		if runningServer.Len() == 0 || runningServer[0][1] > t {
 			return
 		} else {
-			serv := heap.Pop(&runningServer).([2]int)[0]
-			if avaliableServer[serv] == -1 {
-				for i := range avaliableServer {
-					avaliableServer[i] = serv
-				}
-			} else {
-				avaliableServer[serv] = serv
-				for i := serv; avaliableServer[i] > serv; {
-					avaliableServer[i] = serv
-					i = (i + k - 1) % k
+			for runningServer.Len() > 0 && runningServer[0][1] <= t {
+				serv := heap.Pop(&runningServer).([2]int)[0]
+				if avaliableServer[serv] == -1 {
+					for i := range avaliableServer {
+						avaliableServer[i] = serv
+					}
+				} else {
+					avaliableServer[serv] = serv
+					for i := serv; avaliableServer[i] > serv; {
+						avaliableServer[i] = serv
+						i = (i + k - 1) % k
+					}
 				}
 			}
 		}
 	}
 	for i := 0; i < n; i++ {
 		if i >= 1 {
-			for t := arrival[i-1]; t <= arrival[i]; t++ {
-				releaseServer(t)
-			}
-			fmt.Println("after release:", avaliableServer)
+			releaseServer(arrival[i])
+			//fmt.Println("after release:", avaliableServer)
 		}
 		findServer(i)
-		fmt.Println(avaliableServer)
+		//fmt.Println(avaliableServer)
 	}
-	fmt.Println(cnt)
+	//fmt.Println(cnt)
 	sort.Slice(cnt, func(i, j int) bool { return cnt[i][1] < cnt[j][1] })
 	maxV := cnt[k-1][1]
 	ans = append(ans, cnt[k-1][0])
