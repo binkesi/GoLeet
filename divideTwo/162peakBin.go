@@ -1,5 +1,7 @@
 package dividetwo
 
+// https://leetcode.cn/problems/find-peak-element/
+
 func findPeakElementBin(nums []int) int {
 	lenN := len(nums)
 	if lenN == 1 {
