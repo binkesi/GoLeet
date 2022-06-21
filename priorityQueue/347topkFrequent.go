@@ -22,14 +22,14 @@ func topKFrequent(nums []int, k int) (ans []int) {
 
 type lowHeap [][2]int
 
-func (l lowHeap) Len() int              { return len(l) }
-func (l lowHeap) Less(i, j int) bool    { return l[i][1] > l[j][1] }
-func (l lowHeap) Swap(i, j int)         { l[i], l[j] = l[j], l[i] }
-func (l *lowHeap) Push(num interface{}) { *l = append(*l, num.([2]int)) }
+func (l lowHeap) Len() int            { return len(l) }
+func (l lowHeap) Less(i, j int) bool  { return l[i][1] > l[j][1] }
+func (l lowHeap) Swap(i, j int)       { l[i], l[j] = l[j], l[i] }
+func (l *lowHeap) Push(v interface{}) { *l = append(*l, v.([2]int)) }
 func (l *lowHeap) Pop() interface{} {
 	old := *l
 	n := old.Len()
-	top := old[n-1]
+	res := old[n-1]
 	*l = old[:n-1]
-	return top
+	return res
 }
