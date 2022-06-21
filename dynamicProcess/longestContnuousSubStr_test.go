@@ -6,7 +6,7 @@ import (
 )
 
 func TestLongestContnuousSubStr(t *testing.T) {
-	strA, strB := "abcsleiwoei", "bcewoe"
+	strA, strB := "abcsleijjjjwoei", "bcewoejjjjk"
 	comStr := longestContnuousSubStr(strA, strB)
 	fmt.Println(comStr)
 }
