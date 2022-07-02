@@ -7,7 +7,7 @@ import "container/heap"
 func minRefuelStops(target int, startFuel int, stations [][]int) (ans int) {
 	loc, index := startFuel, 0
 	n := len(stations)
-	myHeap := lheap{}
+	myHeap := fuelHeap{}
 	for loc < target {
 		for index < n && stations[index][0] <= loc {
 			heap.Push(&myHeap, stations[index][1])
@@ -23,13 +23,13 @@ func minRefuelStops(target int, startFuel int, stations [][]int) (ans int) {
 	return
 }
 
-type lheap []int
+type fuelHeap []int
 
-func (h lheap) Len() int            { return len(h) }
-func (h lheap) Less(i, j int) bool  { return h[i] > h[j] }
-func (h lheap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *lheap) Push(i interface{}) { *h = append(*h, i.(int)) }
-func (h *lheap) Pop() interface{} {
+func (h fuelHeap) Len() int            { return len(h) }
+func (h fuelHeap) Less(i, j int) bool  { return h[i] > h[j] }
+func (h fuelHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *fuelHeap) Push(i interface{}) { *h = append(*h, i.(int)) }
+func (h *fuelHeap) Pop() interface{} {
 	old := *h
 	n := old.Len()
 	res := old[n-1]
