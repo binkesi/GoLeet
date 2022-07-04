@@ -12,20 +12,12 @@ func minimumAbsDifference(arr []int) (ans [][]int) {
 	minDiff := math.MaxInt32
 	n := len(arr)
 	for i := 1; i < n; i++ {
-		if abs(arr[i]-arr[i-1]) < minDiff {
+		if arr[i]-arr[i-1] < minDiff {
 			ans = [][]int{}
-			if arr[i] > arr[i-1] {
-				ans = append(ans, []int{arr[i-1], arr[i]})
-			} else {
-				ans = append(ans, []int{arr[i], arr[i-1]})
-			}
-			minDiff = abs(arr[i] - arr[i-1])
-		} else if abs(arr[i]-arr[i-1]) == minDiff {
-			if arr[i] > arr[i-1] {
-				ans = append(ans, []int{arr[i-1], arr[i]})
-			} else {
-				ans = append(ans, []int{arr[i], arr[i-1]})
-			}
+			ans = append(ans, []int{arr[i-1], arr[i]})
+			minDiff = arr[i] - arr[i-1]
+		} else if arr[i]-arr[i-1] == minDiff {
+			ans = append(ans, []int{arr[i-1], arr[i]})
 		}
 	}
 	return
