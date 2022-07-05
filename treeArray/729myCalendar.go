@@ -10,7 +10,7 @@ type MyCalendar struct {
 	*redblacktree.Tree
 }
 
-func Constructor() MyCalendar {
+func ConstructorCalendar() MyCalendar {
 	t := redblacktree.NewWithIntComparator()
 	t.Put(math.MaxInt32, nil)
 	return MyCalendar{t}
