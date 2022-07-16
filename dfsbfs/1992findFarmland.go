@@ -44,3 +44,31 @@ func findFarmland(land [][]int) (ans [][]int) {
 	}
 	return
 }
+
+func findFarmland2(land [][]int) (ans [][]int) {
+	r, c := len(land), len(land[0])
+	for i, row := range land {
+		for j, sqr := range row {
+			if sqr == 0 || (j > 0 && land[i][j-1] == 1) || (i > 0 && land[i-1][j] == 1) {
+				continue
+			}
+			mi, mj := i, j
+			for k := i + 1; k < r; k++ {
+				if land[k][j] == 1 {
+					mi++
+				} else {
+					break
+				}
+			}
+			for k := j + 1; k < c; k++ {
+				if land[i][k] == 1 {
+					mj++
+				} else {
+					break
+				}
+			}
+			ans = append(ans, []int{i, j, mi, mj})
+		}
+	}
+	return
+}
