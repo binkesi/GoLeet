@@ -2,36 +2,28 @@ package binarytree
 
 // https://leetcode-cn.com/problems/binary-tree-pruning/
 
-type TreeNodet struct {
-	Val   int
-	Left  *TreeNodet
-	Right *TreeNodet
-}
-
-func pruneTree(root *TreeNodet) *TreeNodet {
-	var isZero func(*TreeNodet) bool
-	isZero = func(tn *TreeNodet) bool {
-		if tn == nil {
+func pruneTree(root *TreeNode) *TreeNode {
+	var removeZero func(node *TreeNode) bool
+	removeZero = func(node *TreeNode) bool {
+		if node == nil {
 			return true
 		}
-		return tn.Val == 0 && isZero(tn.Left) && isZero(tn.Right)
+		if removeZero(node.Left) {
+			node.Left = nil
+		}
+		if removeZero(node.Right) {
+			node.Right = nil
+		}
+		if node.Val == 1 && node.Left == nil && node.Right == nil {
+			return false
+		}
+		if node.Val == 0 && node.Left == nil && node.Right == nil {
+			return true
+		}
+		return false
 	}
-	var removeZero func(*TreeNodet) *TreeNodet
-	removeZero = func(tn *TreeNodet) *TreeNodet {
-		if isZero(tn) {
-			return nil
-		}
-		if isZero(tn.Left) {
-			tn.Left = nil
-		} else {
-			removeZero(tn.Left)
-		}
-		if isZero(tn.Right) {
-			tn.Right = nil
-		} else {
-			removeZero(tn.Right)
-		}
-		return tn
+	if removeZero(root) {
+		return nil
 	}
-	return removeZero(root)
+	return root
 }
