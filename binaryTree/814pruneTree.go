@@ -14,7 +14,7 @@ func pruneTree(root *TreeNode) *TreeNode {
 		if removeZero(node.Right) {
 			node.Right = nil
 		}
-		if node.Val == 1 && node.Left == nil && node.Right == nil {
+		if node.Val == 1 {
 			return false
 		}
 		if node.Val == 0 && node.Left == nil && node.Right == nil {
