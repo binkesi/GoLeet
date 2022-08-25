@@ -1,7 +1,5 @@
 package twopointer
 
-import "sort"
-
 func findClosestElements(arr []int, k int, x int) (ans []int) {
 	l := len(arr)
 	if x <= arr[0] {
@@ -21,23 +19,18 @@ func findClosestElements(arr []int, k int, x int) (ans []int) {
 	}
 	for i := 0; i < k; i++ {
 		if left < 0 {
-			ans = append(ans, arr[right])
 			right++
 			continue
 		}
 		if right > l-1 {
-			ans = append(ans, arr[left])
 			left--
 			continue
 		}
 		if x-arr[left] <= arr[right]-x {
-			ans = append(ans, arr[left])
 			left--
 		} else {
-			ans = append(ans, arr[right])
 			right++
 		}
 	}
-	sort.Ints(ans)
-	return
+	return arr[left+1 : right]
 }
