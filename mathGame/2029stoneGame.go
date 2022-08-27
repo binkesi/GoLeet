@@ -21,14 +21,14 @@ func stoneGameIX(stones []int) bool {
 	if res {
 		return n1 >= 1 && n2 >= 1
 	} else {
-		return abs(n1, n2) > 2
+		return abs(n1-n2) > 2
 	}
 }
 
-func abs(a, b int) int {
-	if a-b >= 0 {
-		return a - b
+func abs(a int) int {
+	if a >= 0 {
+		return a
 	} else {
-		return b - a
+		return -a
 	}
 }
