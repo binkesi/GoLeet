@@ -8,7 +8,8 @@ func reorderSpaces(text string) string {
 	cnt := strings.Count(text, " ")
 	ans := strings.Builder{}
 	l := len(text)
-	words := []string{}
+	words := []string{} // words := strings.Fields(text), Fields splits the string s around each instance of one or more consecutive white space characters,
+	// as defined by unicode.IsSpace, returning a slice of substrings of s or an empty slice if s contains only white space.
 next:
 	for i := 0; i < l; {
 		if text[i] != ' ' {
