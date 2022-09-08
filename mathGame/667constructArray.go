@@ -22,3 +22,21 @@ func constructArray(n int, k int) (ans []int) {
 	}
 	return
 }
+
+func constructArray2(n int, k int) (ans []int) {
+	for i := 1; i <= n-k; i++ {
+		ans = append(ans, i)
+	}
+	l, r := n-k+1, n
+	for l <= r {
+		if l == r {
+			ans = append(ans, l)
+		} else {
+			ans = append(ans, r)
+			ans = append(ans, l)
+		}
+		l++
+		r--
+	}
+	return
+}
